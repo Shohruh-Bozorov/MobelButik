@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dapper;
 
+
 namespace MöbelButik
 {
     class Products
     {
         public static void GetProducts()
         {
-            using (var db = new Models.möbelbutikContext())
+            using (var db = new MobelButik.Models.NewtonContext())
             {
                 var product = db.Produkts;
                 foreach (var item in product)
@@ -26,7 +27,7 @@ namespace MöbelButik
         {
 
 
-            using (var db = new Models.möbelbutikContext())
+            using (var db = new MobelButik.Models.NewtonContext())
             {
                 var result = from
                              Produkts in db.Produkts
@@ -47,7 +48,7 @@ namespace MöbelButik
         {
 
 
-            using (var db = new Models.möbelbutikContext())
+            using (var db = new MobelButik.Models.NewtonContext())
             {
                 var result = from
                              Produkts in db.Produkts
@@ -68,7 +69,7 @@ namespace MöbelButik
         {
 
 
-            using (var db = new Models.möbelbutikContext())
+            using (var db = new MobelButik.Models.NewtonContext())
             {
                 var result = from
                              Produkts in db.Produkts
@@ -92,7 +93,7 @@ namespace MöbelButik
             var affectedRows = 0;
 
             var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
-            var produkt = new Models.Produkt();
+            var produkt = new MobelButik.Models.Produkt();
             produkt = AddProdukt();
             var sql = $"Insert into Produkt(Id, ProduktNamn, TillverkareId, KategoriId, Färg, Material, Pris) values('{produkt.Id}', '{produkt.ProduktNamn}', '{produkt.TillverkareId}', '{produkt.KategoriId}', '{produkt.Färg}', '{produkt.Material}', '{produkt.Pris}')";
 
@@ -116,7 +117,7 @@ namespace MöbelButik
 
         }
 
-        public static Models.Produkt AddProdukt()
+        public static MobelButik.Models.Produkt AddProdukt()
         {
 
 
@@ -168,7 +169,7 @@ namespace MöbelButik
             //float pris = float.Parse(Console.ReadLine());
             bool result = float.TryParse(Console.ReadLine(), out float pris);
 
-            var newProdukt = new Models.Produkt()
+            var newProdukt = new MobelButik.Models.Produkt()
             {
                 Id = prduktId,
                 ProduktNamn = namn,
