@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Dapper;
+using MobelButik;
 
 
-namespace MöbelButik
+namespace MobelButik
 {
     class Products
     {

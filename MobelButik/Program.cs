@@ -6,7 +6,15 @@ namespace MobelButik
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Välkommen Till vår Webbshop!");
+
+            Console.WriteLine("__________________________________________");
+            bool quit = false;
+            while (quit == false)
+            {
+                quit = Meny.MenyVal(quit);
+            }
+
         }
     }
 }
