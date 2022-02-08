@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MobelButik;
 
 namespace MobelButik
 {
     class Meny
     {
 
-        public static bool MenyVal(bool quit) // 3 val väljer om man är kund elle admin eller exit , 3 val
+        public static bool huvudMeny(bool quit) // 3 val väljer om man är kund elle admin eller exit , 3 val
         {
+
+            Console.WriteLine("Huvudmeny");
             Console.WriteLine(
                 "1 = Kundmeny \n" +
                 "2 = admin meny \n" +
@@ -50,6 +51,8 @@ namespace MobelButik
         public static bool KundMeny(bool quit)
         {
 
+            Console.WriteLine("Kundmeny");
+
             Console.WriteLine(
         "1 = Visa alla produkter \n" +
         "2 = Visa köks produkter \n" +
@@ -65,23 +68,25 @@ namespace MobelButik
                 case 1:
                     //visa alla produkter
                     Console.Clear();
-                    Products.GetProducts();
-                    quit = Meny1(false);
-                    return quit;
+                    Methods.GetProducts();
+                    KundMeny(false);
+                    break;
+                    
+                   
 
                 case 2:
                     //visa köksprodukter
-                    Products.GetKitchenProducts();
+                    Methods.GetKitchenProducts();
                     break;
 
                 case 3:
                     //visa sovrumprodukter
-                    Products.GetBedroomProducts();
+                    Methods.GetBedroomProducts();
                     break;
 
                 case 4:
                     //visa vardagsrummsprodukter
-                    Products.GetLivingRoomProducts();
+                    Methods.GetLivingRoomProducts();
                     break;
 
                 case 5:
@@ -117,13 +122,13 @@ namespace MobelButik
             {
                 case 1:
                     //kunna lägga till produkt
-                    Products.InsertProdukt();
+                    Methods.InsertProdukt();
                     break;
 
                 case 2:
                     Console.Clear();
-                    Products.GetProducts();
-                    Products.DeleteProdukt();
+                    Methods.GetProducts();
+                    Methods.DeleteProdukt();
                     //kunna ta bort produkt
                     break;
 
@@ -165,7 +170,7 @@ namespace MobelButik
                     break;
 
                 case 2:
-                    MenyVal(false);
+                    huvudMeny(false);
                     break;
                 case 3:
                     return true;
