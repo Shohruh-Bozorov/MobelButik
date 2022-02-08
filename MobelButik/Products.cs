@@ -12,7 +12,7 @@ namespace MöbelButik
     {
         public static void GetProducts()
         {
-            using (var db = new Models.möbelbutikContext())
+            using (var db = new MobelButik.Models.NewtonContext())
             {
                 var product = db.Produkts;
                 foreach (var item in product)
@@ -26,7 +26,7 @@ namespace MöbelButik
         {
 
 
-            using (var db = new Models.möbelbutikContext())
+            using (var db = new MobelButik.Models.NewtonContext())
             {
                 var result = from
                              Produkts in db.Produkts
