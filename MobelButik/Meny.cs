@@ -95,7 +95,7 @@ namespace MobelButik
 
                 case 5:
                     //fritextsöskning produkter
-                    Products.searchProduct();
+                    Methods.searchProduct();
                     break;
 
                 case 6:
