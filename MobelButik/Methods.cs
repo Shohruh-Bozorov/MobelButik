@@ -10,7 +10,7 @@ using MobelButik;
 
 namespace MobelButik
 {
-    class Products
+    class Methods
     {
         public static void GetProducts()
         {

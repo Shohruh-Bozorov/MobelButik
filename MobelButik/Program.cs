@@ -12,9 +12,8 @@ namespace MobelButik
             bool quit = false;
             while (quit == false)
             {
-                quit = Meny.MenyVal(quit);
+                quit = Meny.huvudMeny(quit);
             }
-
         }
     }
 }
