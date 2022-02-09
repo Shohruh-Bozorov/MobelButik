@@ -69,14 +69,18 @@ namespace MobelButik
                     //visa alla produkter
                     Console.Clear();
                     Methods.GetProducts();
-                    KundMeny(false);
+
+                    Console.WriteLine("\n");
+                        KundMeny(false);
+
                     break;
                     
                    
 
                 case 2:
                     //visa köksprodukter
-                    Methods.GetKitchenProducts();
+                     Methods.GetKitchenProducts();
+                   
                     break;
 
                 case 3:
@@ -111,37 +115,49 @@ namespace MobelButik
         {
 
             Console.WriteLine(
-            "1 = Lägg till produkt \n" +
-            "2 = Ta bort produkt \n" +
-            "3 = Ändra tabell \n" +
-            "4 = gå tillbaka till huvud meny \n" +
-            "5 = exit");
+            "1 = Visa produkt \n" +
+            "2 = Lägg till produkt \n" +
+            "3 = Lägg till kategori \n" +
+            "4 = Ta bort produkt \n" +
+            "5 = gå tillbaka till huvud meny \n" +
+            "6 = exit");
 
             int val = Convert.ToInt32(Console.ReadLine());
             switch (val)
             {
                 case 1:
-                    //kunna lägga till produkt
-                    Methods.InsertProdukt();
-                    break;
-
-                case 2:
-                    Console.Clear();
+                    //visar produkter
                     Methods.GetProducts();
-                    Methods.DeleteProdukt();
-                    //kunna ta bort produkt
                     break;
+                case 2:
+                    //kunna lägga till produkt
+                    Methods.GetProducts();
+                    Methods.InsertProdukt();
+                    break; 
 
                 case 3:
-                    //kunna ändra tabbell
-
+                    Methods.GetCategories();
+                    Methods.InsertCategory();
+                    
                     break;
 
                 case 4:
-                    //tillbaka till huvud meny
+                    //kunna ta bort produkt
+                    Console.Clear();
+                    Console.WriteLine("\n");
+                    Methods.GetProducts();
+                    Methods.DeleteProdukt();
+
                     break;
 
+
                 case 5:
+                    //tillbaka till huvud meny
+                    huvudMeny(false);
+                    break;
+                    
+
+                case 6:
                     //kunna göra exit
                     return true;
 
@@ -151,7 +167,7 @@ namespace MobelButik
 
         }
 
-        public static bool Meny1(bool quit)
+        public static bool kundKorg(bool quit)
         {
 
             Console.WriteLine(

@@ -23,6 +23,17 @@ namespace MobelButik
                 }
             }
         }
+        public static void GetCategories()
+        {
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+                var category = db.Kategoris;
+                foreach (var item in category)
+                {
+                    Console.WriteLine(item.Id + "\t" + item.Namn);
+                }
+            }
+        }
 
         public static void GetKitchenProducts()
         {
@@ -203,7 +214,7 @@ namespace MobelButik
                 try
                 {
                     affectedRows = connection.Execute(sql);
-                    Console.WriteLine("Din produkt blev borttagen");
+                    Console.WriteLine("Din produkt blev tillagd");
                 }
                 catch (Exception e)
                 {
@@ -215,47 +226,5 @@ namespace MobelButik
             return affectedRows;
 
         }
-
-        public static void searchProduct()
-        {
-            Console.WriteLine("Skriv in den produkt du vill söka efter");
-            var search = Console.ReadLine();
-
-            //var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
-            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
-
-
-           /* var sql = $"select *from Produkt where ProduktNamn like {search}%'";
-
-            using (var connection = new SqlConnection(connString))
-            {
-                connection.Open();
-                foreach (var item in sql)
-                {
-                    Console.WriteLine();
-                }
-
-            }*/
-
-
-            using (var db = new MobelButik.Models.NewtonContext())
-            {
-                var products = db.Produkts;
-                var searchProd = products.Where(find => find.ProduktNamn.Contains(search));
-
-                Console.WriteLine("--------------------------");
-              
-                foreach (var prod in searchProd)
-                {
-                    Console.WriteLine($"{prod.Id,-5} {prod.ProduktNamn,-25} {prod.Pris} kr");
-                }
-                Console.WriteLine("--------------------------");
-            }
-
-        }
-
-        
     }
 }
-
