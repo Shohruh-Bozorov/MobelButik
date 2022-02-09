@@ -93,7 +93,7 @@ namespace MobelButik
         {
             var affectedRows = 0;
 
-            var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             var produkt = new MobelButik.Models.Produkt();
             produkt = AddProdukt();
             var sql = $"Insert into Produkt(Id, ProduktNamn, TillverkareId, KategoriId, Färg, Material, Pris) values('{produkt.Id}', '{produkt.ProduktNamn}', '{produkt.TillverkareId}', '{produkt.KategoriId}', '{produkt.Färg}', '{produkt.Material}', '{produkt.Pris}')";
@@ -203,7 +203,7 @@ namespace MobelButik
                 try
                 {
                     affectedRows = connection.Execute(sql);
-                    Console.WriteLine("Din produkt blev tillagd");
+                    Console.WriteLine("Din produkt blev borttagen");
                 }
                 catch (Exception e)
                 {
@@ -215,5 +215,47 @@ namespace MobelButik
             return affectedRows;
 
         }
+
+        public static void searchProduct()
+        {
+            Console.WriteLine("Skriv in den produkt du vill söka efter");
+            var search = Console.ReadLine();
+
+            //var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+
+
+           /* var sql = $"select *from Produkt where ProduktNamn like {search}%'";
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                foreach (var item in sql)
+                {
+                    Console.WriteLine();
+                }
+
+            }*/
+
+
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+                var products = db.Produkts;
+                var searchProd = products.Where(find => find.ProduktNamn.Contains(search));
+
+                Console.WriteLine("--------------------------");
+              
+                foreach (var prod in searchProd)
+                {
+                    Console.WriteLine($"{prod.Id,-5} {prod.ProduktNamn,-25} {prod.Pris} kr");
+                }
+                Console.WriteLine("--------------------------");
+            }
+
+        }
+
+        
     }
 }
+
