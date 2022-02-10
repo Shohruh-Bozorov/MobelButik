@@ -346,8 +346,48 @@ namespace MobelButik
            
            
         }
+        public static Models.Kundkorg addToCart()
+        {
+            Console.WriteLine("Skriv in ID på den produkt du vill lägga till");
+            var idAdd = Convert.ToInt32(Console.ReadLine());
 
-        
+            var newProdukt = new MobelButik.Models.Kundkorg()
+            {
+                ProduktId = idAdd
+            };
+
+            return newProdukt;
+
+        }
+        public static void InsertKundkorg()
+        {
+            var affectedRows = 0;
+
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var category = new MobelButik.Models.Kategori();
+            category = AddCategory();
+            var sql = $"Insert into Kategori(Id, Namn) values('{category.Id}', '{category.Namn}')";
+
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                try
+                {
+                    affectedRows = connection.Execute(sql);
+                    Console.WriteLine("Din kategori blev tillagd");
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+            }
+
+            return affectedRows;
+        }
+
     }
 }
 
