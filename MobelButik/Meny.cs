@@ -198,6 +198,7 @@ namespace MobelButik
             "3 = ta bort produkter från kundkorgen \n" +
             "4 = huvudmeny \n" +
             "5 = Exit \n" +
+            "6 = töm kundkorgen \n" +
             "Mata in ett nummer.");
 
             int val = Convert.ToInt32(Console.ReadLine());
@@ -212,6 +213,13 @@ namespace MobelButik
                 case 2:
                     //Gå vidare/köpa produkter
                     Methods.InsertCustomer();
+                    Methods.GetLeveransAlt();
+                    Console.WriteLine("Välj en leverans alternativ, skriv in ett nummer:");
+                    int levAlt = Convert.ToInt32(Console.ReadLine());
+
+                    Methods.GetBetalningAlt();
+                    Console.WriteLine("Välj en betalning alternativ, skriv in ett nummer:");
+                    int betAlt = Convert.ToInt32(Console.ReadLine());
 
 
                     break;
@@ -230,6 +238,10 @@ namespace MobelButik
                     //exit
                     return true;
 
+                case 6:
+                    //tömer 
+                    Methods.EmptyCart();
+                    break;
 
             }
 

@@ -54,7 +54,7 @@ namespace MobelButik
                 var kund = db.Kunds;
                 foreach (var item in kund)
                 {
-                    Console.WriteLine(item.Id + "/t" + item.Förnamn);
+                    Console.WriteLine(item.Id + "\t" + item.Förnamn + "\t" + item.Efternamn);
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace MobelButik
                 var bAlt = db.BetalningsAlternativs;
                 foreach (var item in bAlt )
                 {
-                    Console.WriteLine(item.Id + "/t" + item.Namn);
+                    Console.WriteLine(item.Id + "\t" + item.Namn);
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace MobelButik
                 var lAlt = db.LeveransAlternativs;
                 foreach (var item in lAlt)
                 {
-                    Console.WriteLine(item.Id + "/t" + item.Namn + "\t" + item.Pris);
+                    Console.WriteLine(item.Id + "\t" + item.Namn + "\t" + item.Pris);
                 }
             }
         }
@@ -511,6 +511,44 @@ namespace MobelButik
 
 
         }
+
+        public static void EmptyCart()
+        {
+
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var sql = $"delete from Kundkorg";
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                try
+                {
+
+                  connection.Execute(sql);
+                  Console.WriteLine("Kundkorgen har tömts!");
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+            }
+
+        }
+
+        //det som ska fixas
+        //* efter köp ska det automatisk kopiera kund id och produkt id till
+        //Orderhistorik samt ha en getDate som hämtar datum och sedan töms kundkorgen med EmptyCart()
+
+        //* efter att man köpt ska man få en fejk ordernummer(vi kan använda rng för det)
+
+        //* efter att man har skrivt in sina personlgia information och har valt leverans och betalning alternativ 
+        // ska man få en bekräftelse på skärmen som visar allt man har matat in så att man kan bekräfta sedan 
+        // frågar den vill du fortsätta? om man v'ljer ja så kopieras ordern till order historik,
+        // kundkorgen töms och man får en fejk order nummer
+
+
     }
 }
 
