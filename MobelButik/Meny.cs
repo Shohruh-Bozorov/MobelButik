@@ -116,11 +116,13 @@ namespace MobelButik
 
             Console.WriteLine(
             "1 = Visa produkt \n" +
-            "2 = Lägg till produkt \n" +
-            "3 = Lägg till kategori \n" +
-            "4 = Ta bort produkt \n" +
-            "5 = gå tillbaka till huvud meny \n" +
-            "6 = exit");
+            "2 = Visa kategori \n" +
+            "3 = Lägg till produkt \n" +
+            "4 = Lägg till kategori \n" +
+            "5 = Ta bort produkt \n" +
+            "6 = Ta bort kategori \n" +
+            "7 = gå tillbaka till huvud meny \n" +
+            "8 = exit");
 
             int val = Convert.ToInt32(Console.ReadLine());
             switch (val)
@@ -130,18 +132,22 @@ namespace MobelButik
                     Methods.GetProducts();
                     break;
                 case 2:
+                    //visar produkter
+                    Methods.GetCategories();
+                    break;
+                case 3:
                     //kunna lägga till produkt
                     Methods.GetProducts();
                     Methods.InsertProdukt();
                     break; 
 
-                case 3:
+                case 4:
                     Methods.GetCategories();
                     Methods.InsertCategory();
                     
                     break;
 
-                case 4:
+                case 5:
                     //kunna ta bort produkt
                     Console.Clear();
                     Console.WriteLine("\n");
@@ -150,14 +156,18 @@ namespace MobelButik
 
                     break;
 
+                case 6:
+                    Methods.GetCategories();
+                    Methods.DeleteCategory();
+                    break;
 
-                case 5:
+                case 7:
                     //tillbaka till huvud meny
                     huvudMeny(false);
                     break;
                     
 
-                case 6:
+                case 8:
                     //kunna göra exit
                     return true;
 

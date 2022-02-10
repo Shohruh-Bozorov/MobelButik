@@ -251,7 +251,7 @@ namespace MobelButik
         {
             var affectedRows = 0;
 
-            var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             var category = new MobelButik.Models.Kategori();
             category = AddCategory();
             var sql = $"Insert into Kategori(Id, Namn) values('{category.Id}', '{category.Namn}')";
@@ -264,6 +264,39 @@ namespace MobelButik
                 {
                     affectedRows = connection.Execute(sql);
                     Console.WriteLine("Din kategori blev tillagd");
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+            }
+
+            return affectedRows;
+
+        }
+
+        public static int DeleteCategory()
+        {
+            Console.WriteLine("Vilken kategori vill du ta bort? Skriv in id");
+            var deleteId = Convert.ToInt32(Console.ReadLine());
+            var affectedRows = 0;
+
+            //var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+
+
+            var sql = $" DELETE FROM Kategori WHERE id = {deleteId} ";
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                try
+                {
+                    affectedRows = connection.Execute(sql);
+                    Console.WriteLine("Din kategori blev borttagen");
 
                 }
                 catch (Exception e)
@@ -298,7 +331,7 @@ namespace MobelButik
             }
 
            
-            ///test
+           
         }
 
         
