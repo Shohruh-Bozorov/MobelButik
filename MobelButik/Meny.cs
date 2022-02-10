@@ -183,9 +183,10 @@ namespace MobelButik
             Methods.GetKundKorg();
 
             Console.WriteLine(
-            "1 = Kundmeny \n" +
-            "2 = huvudmeny \n" +
-            "3 = Exit \n" +
+            "1 = Köp valda produkter \n" +
+            "2 = ta bort produkter från kundkorgen \n" +
+            "3 = huvudmeny \n" +
+            "4 = Exit \n" +
             "Mata in ett nummer.");
 
             int val = Convert.ToInt32(Console.ReadLine());
