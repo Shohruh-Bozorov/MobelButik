@@ -35,6 +35,19 @@ namespace MobelButik
             }
         }
 
+        public static void GetKundKorg()
+        {
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+                var kundKorg = db.Kundkorgs;
+                foreach (var item in kundKorg)
+                {
+                    Console.WriteLine(item.ProduktId);
+                }
+            }
+        }
+
+
         public static void GetKitchenProducts()
         {
 

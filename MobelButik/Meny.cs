@@ -59,7 +59,8 @@ namespace MobelButik
         "3 = Visa Sovrums produkter \n" +
         "4 = Visa vardagrums produkter \n" +
         "5 = sök på en produkt \n" +
-        "6 = gå tillbaka till huvud meny \n" +
+        "6 = Lägg till produkt i kundkorgen \n" +
+        "7 = gå tillbaka till huvud meny \n" +
         "Mata in ett nummer.");
 
             int val = Convert.ToInt32(Console.ReadLine());
@@ -72,10 +73,7 @@ namespace MobelButik
 
                     Console.WriteLine("\n");
                         KundMeny(false);
-
                     break;
-                    
-                   
 
                 case 2:
                     //visa köksprodukter
@@ -99,12 +97,15 @@ namespace MobelButik
                     break;
 
                 case 6:
-                    //tillbaka till huvud meny
+                    //lägger till produkter till kundkorgen
 
                     break;
-                default:
-                    Console.WriteLine("Wrong input");
+
+                case 7:
+                    //tillbaka till huvud meny
+                    huvudMeny(false);
                     break;
+          
 
             }
 
@@ -179,26 +180,34 @@ namespace MobelButik
 
         public static bool kundKorg(bool quit)
         {
+            Methods.GetKundKorg();
 
             Console.WriteLine(
-        "1 = Kundmeny \n" +
-        "2 = huvudmeny \n" +
-        "3 = Exit \n" +
-        "Mata in ett nummer.");
+            "1 = Kundmeny \n" +
+            "2 = huvudmeny \n" +
+            "3 = Exit \n" +
+            "Mata in ett nummer.");
 
             int val = Convert.ToInt32(Console.ReadLine());
 
             switch (val)
             {
                 case 1:
-                    Console.Clear();
-                    KundMeny(false);
+                    //Gå vidare/köpa produkter
+
                     break;
 
                 case 2:
+                    //ta bort produkt från kundkorgen
+
+                    break;
+
+                case 3:
+                    // gå till huvudmeny
                     huvudMeny(false);
                     break;
-                case 3:
+                case 4:
+                    //exit
                     return true;
 
 
