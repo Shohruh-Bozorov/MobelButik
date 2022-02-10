@@ -47,6 +47,44 @@ namespace MobelButik
             }
         }
 
+        public static void GetKund()
+        {
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+                var kund = db.Kunds;
+                foreach (var item in kund)
+                {
+                    Console.WriteLine(item.Id + "/t" + item.Förnamn);
+                }
+            }
+        }
+
+        public static void GetBetalningAlt()
+        {
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+                var bAlt = db.BetalningsAlternativs;
+                foreach (var item in bAlt )
+                {
+                    Console.WriteLine(item.Id + "/t" + item.Namn);
+                }
+            }
+        }
+
+        public static void GetLeveransAlt()
+        {
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+                var lAlt = db.LeveransAlternativs;
+                foreach (var item in lAlt)
+                {
+                    Console.WriteLine(item.Id + "/t" + item.Namn + "\t" + item.Pris);
+                }
+            }
+        }
+
+
+
 
         public static void GetKitchenProducts()
         {
@@ -249,12 +287,12 @@ namespace MobelButik
 
             Console.WriteLine("Skriv in namn");
             string kategoriNamn = Console.ReadLine();
-           
+
             var newCategory = new MobelButik.Models.Kategori()
             {
                 Id = kategoriId,
                 Namn = kategoriNamn
-   
+
             };
 
             return newCategory;
@@ -328,14 +366,14 @@ namespace MobelButik
         {
             Console.WriteLine("Skriv in den produkt du vill söka efter");
             var search = Console.ReadLine();
-               
+
             using (var db = new MobelButik.Models.NewtonContext())
             {
                 var products = db.Produkts;
                 var searchProd = products.Where(find => find.ProduktNamn.Contains(search));
 
                 Console.WriteLine("--------------------------");
-              
+
                 foreach (var prod in searchProd)
                 {
                     Console.WriteLine($"{prod.Id,-5} {prod.ProduktNamn,-25} {prod.Pris} kr");
@@ -343,30 +381,19 @@ namespace MobelButik
                 Console.WriteLine("--------------------------");
             }
 
-           
-           
-        }
-        public static Models.Kundkorg addToCart()
-        {
-            Console.WriteLine("Skriv in ID på den produkt du vill lägga till");
-            var idAdd = Convert.ToInt32(Console.ReadLine());
 
-            var newProdukt = new MobelButik.Models.Kundkorg()
-            {
-                ProduktId = idAdd
-            };
-
-            return newProdukt;
 
         }
-        public static void InsertKundkorg()
+
+        public static int InsertToKundKorg()
         {
             var affectedRows = 0;
 
+            Console.WriteLine("Skriv in ID på den produkt du vill lägga till");
+            var idToAdd = Convert.ToInt32(Console.ReadLine());
+
             var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            var category = new MobelButik.Models.Kategori();
-            category = AddCategory();
-            var sql = $"Insert into Kategori(Id, Namn) values('{category.Id}', '{category.Namn}')";
+            var sql = $" insert into Kundkorg select id from Produkt WHERE id = {idToAdd}";
 
 
             using (var connection = new SqlConnection(connString))
@@ -375,7 +402,7 @@ namespace MobelButik
                 try
                 {
                     affectedRows = connection.Execute(sql);
-                    Console.WriteLine("Din kategori blev tillagd");
+                    Console.WriteLine("Din vara finns nu på kundkorgen");
 
                 }
                 catch (Exception e)
@@ -388,6 +415,102 @@ namespace MobelButik
             return affectedRows;
         }
 
+        public static int DeleteFromKundKorg()
+        {
+            var affectedRows = 0;
+
+            Console.WriteLine("Skriv in ID på den produkt du vill ta bort från kundkorgen");
+            var id = Convert.ToInt32(Console.ReadLine());
+
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var sql = $"delete from kundkorg WHERE ProduktID = {id};";
+
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                try
+                {
+                    affectedRows = connection.Execute(sql);
+                    Console.WriteLine($"Din produkt med id: {id} är nu borttagen från kundkorgen");
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+            }
+
+            return affectedRows;
+        }
+
+        public static MobelButik.Models.Kund AddCustomer()
+        {
+
+            Console.WriteLine("Skriv in Id");
+            int kundId = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Skriv in förnamn");
+            string fnamn = Console.ReadLine();
+
+            Console.WriteLine("Skriv in efternamn");
+            string enamn = Console.ReadLine();
+
+            Console.WriteLine("Skriv in gatunamn");
+            string adress = Console.ReadLine();
+
+            Console.WriteLine("Skriv in ort");
+            string ort = Console.ReadLine();
+
+            Console.WriteLine("Skriv in postnummer");
+            int postnr = Convert.ToInt32(Console.ReadLine());
+
+
+            var newCustomer = new MobelButik.Models.Kund()
+            {
+                Id = kundId,
+                Förnamn = fnamn,
+                Efternamn = enamn,
+                Adress = adress,
+                Ort = ort,
+                Postnummer = postnr
+            };
+
+            return newCustomer;
+        }
+
+        public static int InsertCustomer()
+        {
+            var affectedRows = 0;
+
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var customer = new MobelButik.Models.Kund();
+            customer = AddCustomer();
+            var sql = $"insert into Kund(Id, Förnamn, Efternamn, Adress, Ort, Postnummer) values({customer.Id}, '{customer.Förnamn}','{customer.Efternamn}','{customer.Adress}','{customer.Ort}',{customer.Postnummer})";
+
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                try
+                {
+                    affectedRows = connection.Execute(sql);
+                    Console.WriteLine("Du är nu kund hos oss!");
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+            }
+
+            return affectedRows;
+
+
+
+        }
     }
 }
 

@@ -60,7 +60,9 @@ namespace MobelButik
         "4 = Visa vardagrums produkter \n" +
         "5 = sök på en produkt \n" +
         "6 = Lägg till produkt i kundkorgen \n" +
-        "7 = gå tillbaka till huvud meny \n" +
+        "7 = gå till kundkorgen \n" +
+        "8 = gå tillbaka till huvud meny \n" +
+
         "Mata in ett nummer.");
 
             int val = Convert.ToInt32(Console.ReadLine());
@@ -99,9 +101,12 @@ namespace MobelButik
                 case 6:
                     //lägger till produkter till kundkorgen
 
+                    Methods.InsertToKundKorg();
                     break;
-
                 case 7:
+                    kundKorg(false);
+                    break;
+                case 8:
                     //tillbaka till huvud meny
                     huvudMeny(false);
                     break;
@@ -123,7 +128,8 @@ namespace MobelButik
             "5 = Ta bort produkt \n" +
             "6 = Ta bort kategori \n" +
             "7 = gå tillbaka till huvud meny \n" +
-            "8 = exit");
+            "8 = exit \n" +
+            "9 = visa kunder \n" );
 
             int val = Convert.ToInt32(Console.ReadLine());
             switch (val)
@@ -172,6 +178,10 @@ namespace MobelButik
                     //kunna göra exit
                     return true;
 
+                case 9:
+                    Methods.GetKund();
+                    break;
+
             }
 
             return false;
@@ -180,13 +190,14 @@ namespace MobelButik
 
         public static bool kundKorg(bool quit)
         {
-            Methods.GetKundKorg();
+           
 
             Console.WriteLine(
-            "1 = Köp valda produkter \n" +
-            "2 = ta bort produkter från kundkorgen \n" +
-            "3 = huvudmeny \n" +
-            "4 = Exit \n" +
+            "1 = visa kundkorgen \n" +
+            "2 = Köp valda produkter \n" +
+            "3 = ta bort produkter från kundkorgen \n" +
+            "4 = huvudmeny \n" +
+            "5 = Exit \n" +
             "Mata in ett nummer.");
 
             int val = Convert.ToInt32(Console.ReadLine());
@@ -194,28 +205,31 @@ namespace MobelButik
             switch (val)
             {
                 case 1:
-                    //Gå vidare/köpa produkter
-
+                    Console.WriteLine("Kundkorg");
+                    Methods.GetKundKorg();
+                    kundKorg(false);
                     break;
-
                 case 2:
-                    //ta bort produkt från kundkorgen
+                    //Gå vidare/köpa produkter
+                    Methods.InsertCustomer();
+
 
                     break;
 
                 case 3:
+                    //ta bort produkt från kundkorgen
+                    Methods.DeleteFromKundKorg();
+                    kundKorg(false);
+                    break;
+
+                case 4:
                     // gå till huvudmeny
                     huvudMeny(false);
                     break;
-                case 4:
+                case 5:
                     //exit
                     return true;
 
-
-
-                default:
-                    Console.WriteLine("fel input");
-                    break;
 
             }
 
