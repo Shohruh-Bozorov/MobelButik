@@ -205,7 +205,7 @@ namespace MobelButik
 
         public static bool kundKorg(bool quit)
         {
-           
+            Console.Clear();
 
             Console.WriteLine(
             "1 = visa kundkorgen \n" +
@@ -213,15 +213,18 @@ namespace MobelButik
             "3 = ta bort produkter från kundkorgen \n" +
             "4 = huvudmeny \n" +
             "5 = Exit \n" +
-            "6 = töm kundkorgen \n" +
-            "Mata in ett nummer.");
+            "6 = töm kundkorgen \n");
 
+            Console.WriteLine("Kundkorg:");
+            Console.WriteLine("-------------------------");
+            Methods.GetKundKorg();
+
+            Console.Write("Mata in ett nummer:");
             int val = Convert.ToInt32(Console.ReadLine());
 
             switch (val)
             {
                 case 1:
-                    Console.WriteLine("Kundkorg");
                     Methods.GetKundKorg();
                     kundKorg(false);
                     break;
@@ -237,6 +240,9 @@ namespace MobelButik
                     int betAlt = Convert.ToInt32(Console.ReadLine());
 
                     Methods.LeveransBekräftelse();
+
+
+                    kundKorg(false);
 
 
                     break;
@@ -261,6 +267,7 @@ namespace MobelButik
                     break;
 
             }
+
 
             return false;
 
