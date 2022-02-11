@@ -19,6 +19,7 @@ namespace MobelButik.Models
         public string Ort { get; set; }
         public int? Postnummer { get; set; }
 
+        public static int kundnr = 1;
         public virtual ICollection<OrderHistorik> OrderHistoriks { get; set; }
     }
 }

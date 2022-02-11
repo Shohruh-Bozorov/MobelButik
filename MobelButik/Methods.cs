@@ -42,6 +42,7 @@ namespace MobelButik
             using (var db = new MobelButik.Models.NewtonContext())
             {
                 var kundKorg = db.Kundkorgs;
+                Console.WriteLine("Id");
                 foreach (var item in kundKorg)
                 {
                     Console.WriteLine(item.ProduktId);
@@ -446,12 +447,9 @@ namespace MobelButik
 
             return affectedRows;
         }
-
         public static MobelButik.Models.Kund AddCustomer()
         {
-
-            Console.WriteLine("Skriv in Id");
-            int kundId = Convert.ToInt32(Console.ReadLine());
+            int kundId = Models.Kund.kundnr++;
 
             Console.WriteLine("Skriv in förnamn");
             string fnamn = Console.ReadLine();
