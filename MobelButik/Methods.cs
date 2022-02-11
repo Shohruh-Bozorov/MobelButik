@@ -14,12 +14,14 @@ namespace MobelButik
     {
         public static void GetProducts()
         {
+            Console.WriteLine($"ID \t Namn \t\t Pris ");
             using (var db = new MobelButik.Models.NewtonContext())
             {
                 var product = db.Produkts;
                 foreach (var item in product)
                 {
-                    Console.WriteLine(item.Id + "\t" + item.ProduktNamn + "\t" + item.Pris);
+
+                    Console.WriteLine($"{item.Id,-8} {item.ProduktNamn, -15} {item.Pris}");
                 }
             }
         }
@@ -89,7 +91,7 @@ namespace MobelButik
         public static void GetKitchenProducts()
         {
 
-
+            Console.WriteLine($"ID \t Namn \t\t Pris ");
             using (var db = new MobelButik.Models.NewtonContext())
             {
                 var result = from
@@ -100,7 +102,7 @@ namespace MobelButik
 
                 foreach (var product in result)
                 {
-                    Console.WriteLine(product.ProduktId + "\t" + product.ProduktName + "\t" + product.ProduktPris);
+                    Console.WriteLine($"{product.ProduktId,-8} {product.ProduktName,-15} {product.ProduktPris}");
                 }
 
 
@@ -109,7 +111,7 @@ namespace MobelButik
 
         public static void GetBedroomProducts()
         {
-
+            Console.WriteLine($"ID \t Namn \t\t Pris ");
 
             using (var db = new MobelButik.Models.NewtonContext())
             {
@@ -121,7 +123,7 @@ namespace MobelButik
 
                 foreach (var product in result)
                 {
-                    Console.WriteLine(product.ProduktId + "\t" + product.ProduktName + "\t" + product.ProduktPris);
+                    Console.WriteLine($"{product.ProduktId,-8} {product.ProduktName,-15} {product.ProduktPris}");
                 }
 
 
@@ -131,7 +133,7 @@ namespace MobelButik
         public static void GetLivingRoomProducts()
         {
 
-
+            Console.WriteLine($"ID \t Namn \t\t Pris ");
             using (var db = new MobelButik.Models.NewtonContext())
             {
                 var result = from
@@ -142,7 +144,7 @@ namespace MobelButik
 
                 foreach (var product in result)
                 {
-                    Console.WriteLine(product.ProduktId + "\t" + product.ProduktName + "\t" + product.ProduktPris);
+                    Console.WriteLine($"{product.ProduktId,-8} {product.ProduktName,-15} {product.ProduktPris}");
                 }
 
 
@@ -536,6 +538,103 @@ namespace MobelButik
             }
 
         }
+
+        public static void LeveransBekräftelse()
+        {
+            Console.WriteLine("Din order är nu påväg till dig");
+            var rnd = new Random();
+            int orderNummer = rnd.Next(100000, 999999);
+            Console.WriteLine("--------------------------------------");
+            Console.WriteLine($"Ditt order nhummer är: {orderNummer}");
+        }
+      /*  public static void GetKundKorgProducts()
+        {
+
+
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+
+                Console.WriteLine("KundKorg:");
+
+                //var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
+                var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+                var sql = @"select p.Id, p.ProduktNamn, p.Pris
+                            from Produkt p
+                            join
+                            Kundkorg k
+                            on p.Id = k.ProduktID";
+
+                using (var connection = new SqlConnection(connString))
+                {
+                    connection.Open();
+                    try
+                    {
+                        var kundkorg = connection.Query<, Author, Book>(sql,
+                                       (b, a) => { b.Author = a; return b; }, splitOn: "AuthorId");
+                        Console.WriteLine(kundkorg);
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+
+                }*/
+
+
+                /*var data = (from k in db.Kundkorgs
+                              join p in db.Produkts
+                              on k.ProduktId equals p.Id
+                              select k.ProduktId, 
+                              *//*select new
+                              {
+                                  Id = k.ProduktId,
+                                  Namn = p.ProduktNamn,
+                                  Pris = p.Pris
+                                  
+                              }).ToList();*//*
+
+                foreach (var prod in data)
+                {
+                    Console.WriteLine($"{prod.Id,-5} {prod.Namn,-10} {prod.Pris}");
+                }*/
+
+                /*var data = db.Kundkorgs
+                            .Join(
+                                db.Produkts,
+                                kundkorg => kundkorg.ProduktId,
+                                produkt => produkt.Id,
+                                (kundkorg, produkt) => new
+                                {
+                                    ProduktId = produkt.Id,
+                                    ProduktNamn = produkt.ProduktNamn,
+                                    Pris = produkt.Pris
+                                }
+                            ).ToList();
+
+                foreach (var prod in data)
+                {
+                    Console.WriteLine($"{prod.ProduktId,-5} {prod.ProduktNamn,-10} {prod.Pris}");
+                }*/
+
+
+
+                /*var result = from
+                             Produkts in db.Produkts
+                             where Produkts.KategoriId == 2
+                             select new Queries { ProduktName = Produkts.ProduktNamn, ProduktPris = (double)Produkts.Pris, ProduktId = Produkts.Id };
+                //group Produkts by Produkts.ProduktNamn;
+
+                foreach (var product in result)
+                {
+                    Console.WriteLine(product.ProduktId + "\t" + product.ProduktName + "\t" + product.ProduktPris);
+                }*//*
+
+
+            }
+        }*/
+
 
         //det som ska fixas
         //* efter köp ska det automatisk kopiera kund id och produkt id till

@@ -79,29 +79,44 @@ namespace MobelButik
 
                 case 2:
                     //visa köksprodukter
-                     Methods.GetKitchenProducts();
-                   
+                    Console.Clear();
+                    Methods.GetKitchenProducts();
+                    Console.WriteLine("\n");
+                    KundMeny(false);
+
                     break;
 
                 case 3:
                     //visa sovrumprodukter
+                    Console.Clear();
                     Methods.GetBedroomProducts();
+                    Console.WriteLine("\n");
+                    KundMeny(false);
                     break;
 
                 case 4:
                     //visa vardagsrummsprodukter
+                    Console.Clear();
                     Methods.GetLivingRoomProducts();
+                    Console.WriteLine("\n");
+                    KundMeny(false);
                     break;
 
                 case 5:
                     //fritextsöskning produkter
+                    Console.Clear();
                     Methods.searchProduct();
+                    Console.WriteLine("\n");
+                    KundMeny(false);
                     break;
 
                 case 6:
                     //lägger till produkter till kundkorgen
-
+                    Console.Clear();
+                    Methods.GetProducts();
                     Methods.InsertToKundKorg();
+                    Console.WriteLine("\n");
+                    KundMeny(false);
                     break;
                 case 7:
                     kundKorg(false);
@@ -220,6 +235,8 @@ namespace MobelButik
                     Methods.GetBetalningAlt();
                     Console.WriteLine("Välj en betalning alternativ, skriv in ett nummer:");
                     int betAlt = Convert.ToInt32(Console.ReadLine());
+
+                    Methods.LeveransBekräftelse();
 
 
                     break;
