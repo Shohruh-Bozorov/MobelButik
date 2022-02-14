@@ -21,7 +21,7 @@ namespace MobelButik
                 foreach (var item in product)
                 {
 
-                    Console.WriteLine($"{item.Id,-8} {item.ProduktNamn, -15} {item.Pris}");
+                    Console.WriteLine($"{item.Id,-8} {item.ProduktNamn,-15} {item.Pris}");
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace MobelButik
             using (var db = new MobelButik.Models.NewtonContext())
             {
                 var bAlt = db.BetalningsAlternativs;
-                foreach (var item in bAlt )
+                foreach (var item in bAlt)
                 {
                     Console.WriteLine(item.Id + "\t" + item.Namn);
                 }
@@ -524,8 +524,8 @@ namespace MobelButik
                 try
                 {
 
-                  connection.Execute(sql);
-                  Console.WriteLine("Kundkorgen har tömts!");
+                    connection.Execute(sql);
+                    Console.WriteLine("Kundkorgen har tömts!");
 
                 }
                 catch (Exception e)
@@ -545,107 +545,97 @@ namespace MobelButik
             Console.WriteLine("--------------------------------------");
             Console.WriteLine($"Ditt order nhummer är: {orderNummer}");
         }
-      /*  public static void GetKundKorgProducts()
+        public static void GetKundKorgProducts()
         {
-
-
             using (var db = new MobelButik.Models.NewtonContext())
             {
 
                 Console.WriteLine("KundKorg:");
 
-                //var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
-                var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                var data = (from k in db.Kundkorgs
+                            join p in db.Produkts
+                            on k.ProduktId equals p.Id
+                            select new
+                            {
+                                Id = k.ProduktId,
+                                Namn = p.ProduktNamn,
+                                Pris = p.Pris
 
-                var sql = @"select p.Id, p.ProduktNamn, p.Pris
-                            from Produkt p
-                            join
-                            Kundkorg k
-                            on p.Id = k.ProduktID";
+                            }).ToList();
 
-                using (var connection = new SqlConnection(connString))
-                {
-                    connection.Open();
-                    try
-                    {
-                        var kundkorg = connection.Query<, Author, Book>(sql,
-                                       (b, a) => { b.Author = a; return b; }, splitOn: "AuthorId");
-                        Console.WriteLine(kundkorg);
-
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-
-                }*/
-
-
-                /*var data = (from k in db.Kundkorgs
-                              join p in db.Produkts
-                              on k.ProduktId equals p.Id
-                              select k.ProduktId, 
-                              *//*select new
-                              {
-                                  Id = k.ProduktId,
-                                  Namn = p.ProduktNamn,
-                                  Pris = p.Pris
-                                  
-                              }).ToList();*//*
 
                 foreach (var prod in data)
                 {
                     Console.WriteLine($"{prod.Id,-5} {prod.Namn,-10} {prod.Pris}");
-                }*/
+                }
 
-                /*var data = db.Kundkorgs
-                            .Join(
-                                db.Produkts,
-                                kundkorg => kundkorg.ProduktId,
-                                produkt => produkt.Id,
-                                (kundkorg, produkt) => new
-                                {
-                                    ProduktId = produkt.Id,
-                                    ProduktNamn = produkt.ProduktNamn,
-                                    Pris = produkt.Pris
-                                }
-                            ).ToList();
+            }
+        }
 
-                foreach (var prod in data)
-                {
-                    Console.WriteLine($"{prod.ProduktId,-5} {prod.ProduktNamn,-10} {prod.Pris}");
-                }*/
+        public static void GetMostPopularProducts()
+        {
+            Console.WriteLine($"ID \t Namn \t\t Pris ");
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
 
-
-
-                /*var result = from
-                             Produkts in db.Produkts
-                             where Produkts.KategoriId == 2
-                             select new Queries { ProduktName = Produkts.ProduktNamn, ProduktPris = (double)Produkts.Pris, ProduktId = Produkts.Id };
+                var result = from 
+                             OrderHistorik in db.OrderHistoriks                            
+                             select new PopularProd { Id = OrderHistorik.Id, NumberOfProds = count };
                 //group Produkts by Produkts.ProduktNamn;
 
                 foreach (var product in result)
                 {
-                    Console.WriteLine(product.ProduktId + "\t" + product.ProduktName + "\t" + product.ProduktPris);
-                }*//*
+                    Console.WriteLine($"{product.ProduktId,-8} {product.ProduktName,-15} {product.ProduktPris}");
+                }
 
+                /*
+                                Console.WriteLine("KundKorg:");
+
+                                //var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
+                                var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+                                var sql = @"SELECT
+                                              ProduktId, count(ProduktID) as 'Antal köp av produkt'
+                                            FROM
+                                              OrderHistorik
+                                            GROUP BY
+                                              ProduktID";
+
+                                using (var connection = new SqlConnection(connString))
+                                {
+                                    connection.Open();
+                                    try
+                                    {
+                                        var mostCommonProds = connection.Query(sql).ToList();
+                                        foreach (var item in mostCommonProds)
+                                        {
+                                            Console.WriteLine(item);
+                                        }
+
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+
+                                }*/
 
             }
-        }*/
 
 
-        //det som ska fixas
-        //* efter köp ska det automatisk kopiera kund id och produkt id till
-        //Orderhistorik samt ha en getDate som hämtar datum och sedan töms kundkorgen med EmptyCart()
+            //det som ska fixas
+            //* efter köp ska det automatisk kopiera kund id och produkt id till
+            //Orderhistorik samt ha en getDate som hämtar datum och sedan töms kundkorgen med EmptyCart()
 
-        //* efter att man köpt ska man få en fejk ordernummer(vi kan använda rng för det)
+            //* efter att man köpt ska man få en fejk ordernummer(vi kan använda rng för det)
 
-        //* efter att man har skrivt in sina personlgia information och har valt leverans och betalning alternativ 
-        // ska man få en bekräftelse på skärmen som visar allt man har matat in så att man kan bekräfta sedan 
-        // frågar den vill du fortsätta? om man v'ljer ja så kopieras ordern till order historik,
-        // kundkorgen töms och man får en fejk order nummer
+            //* efter att man har skrivt in sina personlgia information och har valt leverans och betalning alternativ 
+            // ska man få en bekräftelse på skärmen som visar allt man har matat in så att man kan bekräfta sedan 
+            // frågar den vill du fortsätta? om man v'ljer ja så kopieras ordern till order historik,
+            // kundkorgen töms och man får en fejk order nummer
 
 
+        }
     }
 }
 

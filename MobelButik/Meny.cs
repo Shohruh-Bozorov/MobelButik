@@ -206,29 +206,32 @@ namespace MobelButik
         public static bool kundKorg(bool quit)
         {
             Console.Clear();
+            Methods.GetKundKorgProducts();
+            Console.WriteLine("-----------------------------");
 
             Console.WriteLine(
-            "1 = visa kundkorgen \n" +
-            "2 = Köp valda produkter \n" +
-            "3 = ta bort produkter från kundkorgen \n" +
-            "4 = huvudmeny \n" +
-            "5 = Exit \n" +
-            "6 = töm kundkorgen \n");
+            "1 = Köp valda produkter \n" +
+            "2 = ta bort produkter från kundkorgen \n" +
+            "3 = huvudmeny \n" +
+            "4 = Exit \n" +
+            "5 = töm kundkorgen \n");
 
-            Console.WriteLine("Kundkorg:");
+ /*           Console.WriteLine("Kundkorg:");
             Console.WriteLine("-------------------------");
-            Methods.GetKundKorg();
+            Methods.GetKundKorg();*/
 
             Console.Write("Mata in ett nummer:");
             int val = Convert.ToInt32(Console.ReadLine());
 
             switch (val)
             {
-                case 1:
-                    Methods.GetKundKorg();
+  /*              case 1:
+                    Console.Clear();
+                    Methods.GetKundKorgProducts();
+                    Console.WriteLine("-----------------------------");
                     kundKorg(false);
-                    break;
-                case 2:
+                    break;*/
+                case 1:
                     //Gå vidare/köpa produkter
                     Methods.InsertCustomer();
                     Methods.GetLeveransAlt();
@@ -247,21 +250,21 @@ namespace MobelButik
 
                     break;
 
-                case 3:
+                case 2:
                     //ta bort produkt från kundkorgen
                     Methods.DeleteFromKundKorg();
                     kundKorg(false);
                     break;
 
-                case 4:
+                case 3:
                     // gå till huvudmeny
                     huvudMeny(false);
                     break;
-                case 5:
+                case 4:
                     //exit
                     return true;
 
-                case 6:
+                case 5:
                     //tömer 
                     Methods.EmptyCart();
                     break;
