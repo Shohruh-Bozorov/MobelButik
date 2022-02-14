@@ -144,7 +144,8 @@ namespace MobelButik
             "6 = Ta bort kategori \n" +
             "7 = gå tillbaka till huvud meny \n" +
             "8 = exit \n" +
-            "9 = visa kunder \n" );
+            "9 = visa kunder \n" +
+            "10 = visa orderhistorik" );
 
             int val = Convert.ToInt32(Console.ReadLine());
             switch (val)
@@ -196,6 +197,11 @@ namespace MobelButik
                 case 9:
                     Methods.GetKund();
                     break;
+                
+                case 10:
+                    //se orderhistorik
+                    Methods.ShowOrderHistorik();
+                    break;
 
             }
 
@@ -243,7 +249,8 @@ namespace MobelButik
                     int betAlt = Convert.ToInt32(Console.ReadLine());
 
                     Methods.LeveransBekräftelse();
-
+                    Methods.AddToOrderHistroik();
+                    Methods.EmptyCart();
 
                     kundKorg(false);
 

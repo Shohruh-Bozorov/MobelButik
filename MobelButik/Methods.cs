@@ -326,6 +326,7 @@ namespace MobelButik
                 }
 
             }
+          
 
             return affectedRows;
 
@@ -572,15 +573,66 @@ namespace MobelButik
             }
         }
 
-        public static void GetMostPopularProducts()
+        public static void AddToOrderHistroik()
+        {
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+                var data =  (from korg in db.Kundkorgs
+                            select new {Produkt = korg.ProduktId}).ToList();
+
+
+                foreach (var prod in data)
+                {
+                    int orderHistorikID = Models.OrderHistorik.kundnr++;
+                    var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                    var sql = $"insert into OrderHistorik values ({orderHistorikID}, {Models.Kund.kundnr}, {prod.Produkt})";
+
+                    using (var connection = new SqlConnection(connString))
+                    {
+                        connection.Open();
+                        try
+                        {
+                            connection.Execute(sql);
+
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void ShowOrderHistorik()
+        {
+            Console.WriteLine($"KundID \t ProductID");
+            using (var db = new MobelButik.Models.NewtonContext())
+            {
+                var result = from
+                             orderHistorik in db.OrderHistoriks
+                             select new { KundID = orderHistorik.KundId, ProduktId = orderHistorik.ProduktId };
+                //group Produkts by Produkts.ProduktNamn;
+
+                foreach (var product in result)
+                {
+                    Console.WriteLine($"{product.KundID,-8} {product.ProduktId,-15}");
+                }
+
+
+            }
+        }
+            
+        /*public static void GetMostPopularProducts()
         {
             Console.WriteLine($"ID \t Namn \t\t Pris ");
             using (var db = new MobelButik.Models.NewtonContext())
             {
 
-                var result = from 
-                             OrderHistorik in db.OrderHistoriks                            
-                             select new PopularProd { Id = OrderHistorik.Id, NumberOfProds = count };
+                var result = from
+                             Produkts in db.Produkts
+                             where Produkts.KategoriId == 1
+                             select new { ProduktName = Produkts.ProduktNamn, ProduktPris = (double)Produkts.Pris, ProduktId = Produkts.Id };
                 //group Produkts by Produkts.ProduktNamn;
 
                 foreach (var product in result)
@@ -588,7 +640,7 @@ namespace MobelButik
                     Console.WriteLine($"{product.ProduktId,-8} {product.ProduktName,-15} {product.ProduktPris}");
                 }
 
-                /*
+                *//*
                                 Console.WriteLine("KundKorg:");
 
                                 //var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
@@ -618,9 +670,9 @@ namespace MobelButik
                                         Console.WriteLine(e.Message);
                                     }
 
-                                }*/
+                                }*//*
 
-            }
+            }*/
 
 
             //det som ska fixas
@@ -635,7 +687,7 @@ namespace MobelButik
             // kundkorgen töms och man får en fejk order nummer
 
 
-        }
+        
     }
 }
 
