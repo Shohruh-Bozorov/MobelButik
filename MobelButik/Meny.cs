@@ -8,18 +8,18 @@ namespace MobelButik
 {
     class Meny
     {
-
-        public static bool huvudMeny(bool quit) // 3 val väljer om man är kund elle admin eller exit , 3 val
+        // 3 val väljer om man är kund, admin, exit
+        public static bool huvudMeny(bool quit)
         {
-
             Console.WriteLine("Huvudmeny");
+
             Console.WriteLine(
-                "1 = Kundmeny \n" +
-                "2 = admin meny \n" +
-                "3 = Exit \n" +
-                "Mata in ett nummer.");
+            "1 = Kund \n" +
+            "2 = Admin \n" +
+            "3 = Exit ");
 
             int val = Convert.ToInt32(Console.ReadLine());
+
             switch (val)
             {
                 case 1:
@@ -31,15 +31,18 @@ namespace MobelButik
                 case 2:
                     //tar dig till admin meny
                     Console.Clear();
-                    AdminMeny(false);
-                    break;
+                    quit = AdminMeny(false);
+                    return quit;
 
                 case 3:
                     //exit
+                    Console.Clear();
+                    Console.WriteLine("Välkommen åter");
                     return true;
 
                 default:
-                    Console.WriteLine("Wrong input");
+                    Console.Clear();
+                    Console.WriteLine("Wrong input, try again!");
                     break;
 
             }
@@ -48,40 +51,40 @@ namespace MobelButik
 
         }
 
+        //kundmeny
         public static bool KundMeny(bool quit)
         {
 
             Console.WriteLine("Kundmeny");
 
             Console.WriteLine(
-        "1 = Visa alla produkter \n" +
-        "2 = Visa köks produkter \n" +
-        "3 = Visa Sovrums produkter \n" +
-        "4 = Visa vardagrums produkter \n" +
-        "5 = sök på en produkt \n" +
-        "6 = Lägg till produkt i kundkorgen \n" +
-        "7 = gå till kundkorgen \n" +
-        "8 = gå tillbaka till huvud meny \n" +
-
-        "Mata in ett nummer.");
+            "1 = Visa alla produkter \n" +
+            "2 = Visa köks produkter \n" +
+            "3 = Visa Sovrums produkter \n" +
+            "4 = Visa vardagrums produkter \n" +
+            "5 = sök på en produkt \n" +
+            "6 = Lägg till produkt i kundkorgen \n" +
+            "7 = gå till kundkorgen \n" +
+            "8 = gå tillbaka till huvud meny \n" +
+            "9 = Exit ");
 
             int val = Convert.ToInt32(Console.ReadLine());
+
             switch (val)
             {
                 case 1:
                     //visa alla produkter
                     Console.Clear();
                     Methods.GetProducts();
-
-                    Console.WriteLine("\n");
-                        KundMeny(false);
+                    Console.WriteLine();
+                    KundMeny(false);
                     break;
 
                 case 2:
                     //visa köksprodukter
                     Console.Clear();
                     Methods.GetKitchenProducts();
-                    Console.WriteLine("\n");
+                    Console.WriteLine();
                     KundMeny(false);
 
                     break;
@@ -90,7 +93,7 @@ namespace MobelButik
                     //visa sovrumprodukter
                     Console.Clear();
                     Methods.GetBedroomProducts();
-                    Console.WriteLine("\n");
+                    Console.WriteLine();
                     KundMeny(false);
                     break;
 
@@ -98,7 +101,7 @@ namespace MobelButik
                     //visa vardagsrummsprodukter
                     Console.Clear();
                     Methods.GetLivingRoomProducts();
-                    Console.WriteLine("\n");
+                    Console.WriteLine();
                     KundMeny(false);
                     break;
 
@@ -106,7 +109,7 @@ namespace MobelButik
                     //fritextsöskning produkter
                     Console.Clear();
                     Methods.searchProduct();
-                    Console.WriteLine("\n");
+                    Console.WriteLine();
                     KundMeny(false);
                     break;
 
@@ -115,26 +118,41 @@ namespace MobelButik
                     Console.Clear();
                     Methods.GetProducts();
                     Methods.InsertToKundKorg();
-                    Console.WriteLine("\n");
+                    Console.WriteLine();
                     KundMeny(false);
                     break;
+
                 case 7:
-                    kundKorg(false);
-                    break;
+                    //går till kundkorg
+                    Console.Clear();
+                    quit = kundKorg(false);
+                    return quit;
+
                 case 8:
                     //tillbaka till huvud meny
-                    huvudMeny(false);
-                    break;
-          
+                    Console.Clear();
+                    quit = huvudMeny(false);
+                    return quit;
 
+                case 9:
+                    //exit
+                    Console.Clear();
+                    Console.WriteLine("Välkommen åter");
+                    return true;
+
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Wrong input, try again!");
+                    KundMeny(false);
+                    break;
             }
 
             return false;
         }
 
+        //admin meny
         public static bool AdminMeny(bool quit)
         {
-
             Console.WriteLine(
             "1 = Visa produkt \n" +
             "2 = Visa kategori \n" +
@@ -142,73 +160,96 @@ namespace MobelButik
             "4 = Lägg till kategori \n" +
             "5 = Ta bort produkt \n" +
             "6 = Ta bort kategori \n" +
-            "7 = gå tillbaka till huvud meny \n" +
-            "8 = exit \n" +
-            "9 = visa kunder \n" +
-            "10 = visa orderhistorik" );
+            "7 = Visa orderhistorik \n" +
+            "8 = Visa kunder \n" +
+            "9 = Till huvudmeny \n" +
+            "10 = Exit");
 
             int val = Convert.ToInt32(Console.ReadLine());
             switch (val)
             {
                 case 1:
                     //visar produkter
+                    Console.Clear();
                     Methods.GetProducts();
+                    AdminMeny(false);
                     break;
+
                 case 2:
-                    //visar produkter
+                    //visar kategorier
+                    Console.Clear();
                     Methods.GetCategories();
+                    AdminMeny(false);
                     break;
+
                 case 3:
                     //kunna lägga till produkt
+                    Console.Clear();
                     Methods.GetProducts();
                     Methods.InsertProdukt();
+                    AdminMeny(false);
                     break; 
 
                 case 4:
+                    Console.Clear();
                     Methods.GetCategories();
                     Methods.InsertCategory();
-                    
+                    AdminMeny(false);
                     break;
 
                 case 5:
                     //kunna ta bort produkt
                     Console.Clear();
-                    Console.WriteLine("\n");
+                    Console.WriteLine();
                     Methods.GetProducts();
                     Methods.DeleteProdukt();
-
+                    AdminMeny(false);
                     break;
 
                 case 6:
+                    Console.Clear();
                     Methods.GetCategories();
                     Methods.DeleteCategory();
+                    AdminMeny(false);
                     break;
 
                 case 7:
-                    //tillbaka till huvud meny
-                    huvudMeny(false);
+                    //se orderhistorik
+                    Console.Clear();
+                    Methods.ShowOrderHistorik();
+                    AdminMeny(false);
                     break;
-                    
 
                 case 8:
-                    //kunna göra exit
-                    return true;
+                    Console.Clear();
+                    Methods.GetKund();
+                    AdminMeny(false);
+                    break;
 
                 case 9:
-                    Methods.GetKund();
-                    break;
-                
+                    //tillbaka till huvud meny
+                    Console.Clear();
+                    quit = huvudMeny(false);
+                    return quit;
+
                 case 10:
-                    //se orderhistorik
-                    Methods.ShowOrderHistorik();
+                    //exit
+                    Console.Clear();
+                    Console.WriteLine("Välkommen åter");
+                    return true;
+
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Wrong input, try again!");
+                    AdminMeny(false);
                     break;
 
             }
 
             return false;
-
         }
 
+        //Kundkorg
         public static bool kundKorg(bool quit)
         {
 
@@ -217,29 +258,20 @@ namespace MobelButik
 
             Console.WriteLine(
             "1 = Köp valda produkter \n" +
-            "2 = ta bort produkter från kundkorgen \n" +
-            "3 = huvudmeny \n" +
-            "4 = Exit \n" +
-            "5 = töm kundkorgen \n");
+            "2 = Ta bort från kundkorgen \n" +
+            "3 = Töm kundkorgen \n" +
+            "4 = Till huvudmeny \n" +
+            "5 = Exit");
 
- /*           Console.WriteLine("Kundkorg:");
-            Console.WriteLine("-------------------------");
-            Methods.GetKundKorg();*/
-
-            Console.Write("Mata in ett nummer:");
             int val = Convert.ToInt32(Console.ReadLine());
 
             switch (val)
             {
-  /*              case 1:
-                    Console.Clear();
-                    Methods.GetKundKorgProducts();
-                    Console.WriteLine("-----------------------------");
-                    kundKorg(false);
-                    break;*/
                 case 1:
                     //Gå vidare/köpa produkter
+                    Console.Clear();
                     Methods.InsertCustomer();
+
                     Methods.GetLeveransAlt();
                     Console.WriteLine("Välj en leverans alternativ, skriv in ett nummer:");
                     int levAlt = Convert.ToInt32(Console.ReadLine());
@@ -250,39 +282,45 @@ namespace MobelButik
 
                     Methods.LeveransBekräftelse();
                     Methods.AddToOrderHistroik();
+                   
                     Methods.EmptyCart();
-
                     kundKorg(false);
-
-
                     break;
 
                 case 2:
                     //ta bort produkt från kundkorgen
+                    Console.Clear();
                     Methods.DeleteFromKundKorg();
                     kundKorg(false);
-                    break;
-
+                    break;                
+                
                 case 3:
-                    // gå till huvudmeny
-                    huvudMeny(false);
-                    break;
-                case 4:
-                    //exit
-                    return true;
-
-                case 5:
-                    //tömer 
+                    //tömer kundkorgen
+                    Console.Clear();
                     Methods.EmptyCart();
                     break;
 
-            }
+                case 4:
+                    // gå till huvudmeny
+                    Console.Clear();
+                    quit = huvudMeny(false);
+                    return quit;
 
+                case 5:
+                    //exit
+                    Console.Clear();
+                    Console.WriteLine("Välkommen åter");
+                    return true;
+
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Wrong input, try again!");
+                    AdminMeny(false);
+                    break;
+            }
 
             return false;
 
         }
-
-
     }
 }
