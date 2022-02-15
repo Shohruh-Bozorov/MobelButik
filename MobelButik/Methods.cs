@@ -448,37 +448,62 @@ namespace MobelButik
 
             return affectedRows;
         }
+
         public static MobelButik.Models.Kund AddCustomer()
         {
-            int kundId = Models.Kund.kundnr++;
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var sql = $"select COUNT(id) as 'AntalKunder' from Kund";
 
-            Console.WriteLine("Skriv in förnamn");
-            string fnamn = Console.ReadLine();
-
-            Console.WriteLine("Skriv in efternamn");
-            string enamn = Console.ReadLine();
-
-            Console.WriteLine("Skriv in gatunamn");
-            string adress = Console.ReadLine();
-
-            Console.WriteLine("Skriv in ort");
-            string ort = Console.ReadLine();
-
-            Console.WriteLine("Skriv in postnummer");
-            int postnr = Convert.ToInt32(Console.ReadLine());
-
-
-            var newCustomer = new MobelButik.Models.Kund()
+            using (var connection = new SqlConnection(connString))
             {
-                Id = kundId,
-                Förnamn = fnamn,
-                Efternamn = enamn,
-                Adress = adress,
-                Ort = ort,
-                Postnummer = postnr
-            };
+                connection.Open();
+                /*try
+                {
+                    var num = connection.Query<int>(sql);
+                    //Console.WriteLine(num.AsList()[0]);
+                    int kundId = num.AsList()[0];
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }*/
 
-            return newCustomer;
+
+                var num = connection.Query<int>(sql);
+                int kundId = num.AsList()[0] + 1;
+
+
+
+
+
+                Console.WriteLine("Skriv in förnamn");
+                string fnamn = Console.ReadLine();
+
+                Console.WriteLine("Skriv in efternamn");
+                string enamn = Console.ReadLine();
+
+                Console.WriteLine("Skriv in gatunamn");
+                string adress = Console.ReadLine();
+
+                Console.WriteLine("Skriv in ort");
+                string ort = Console.ReadLine();
+
+                Console.WriteLine("Skriv in postnummer");
+                int postnr = Convert.ToInt32(Console.ReadLine());
+
+
+                var newCustomer = new MobelButik.Models.Kund()
+                {
+                    Id = kundId,
+                    Förnamn = fnamn,
+                    Efternamn = enamn,
+                    Adress = adress,
+                    Ort = ort,
+                    Postnummer = postnr
+                };
+
+                return newCustomer;
+            }
         }
 
         public static int InsertCustomer()
@@ -577,33 +602,46 @@ namespace MobelButik
         {
             using (var db = new MobelButik.Models.NewtonContext())
             {
-                var data =  (from korg in db.Kundkorgs
-                            select new {Produkt = korg.ProduktId}).ToList();
+                var data = (from korg in db.Kundkorgs
+                            select new { Produkt = korg.ProduktId }).ToList();
+                var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                var sql = $"select COUNT(id) as 'AntalKunder' from Kund";
+                var sql2 = $"select COUNT(id) as 'AntalID' from OrderHistorik";
 
-
-                foreach (var prod in data)
+                using (var connection = new SqlConnection(connString))
                 {
-                    int orderHistorikID = Models.OrderHistorik.kundnr++;
-                    var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-                    var sql = $"insert into OrderHistorik values ({orderHistorikID}, {Models.Kund.kundnr}, {prod.Produkt})";
+                    connection.Open();
 
-                    using (var connection = new SqlConnection(connString))
+                    var num = connection.Query<int>(sql);
+                    int kundId = num.AsList()[0];
+                    var num1 = connection.Query<int>(sql);
+                    int OHId = num.AsList()[0] + 1;
+
+
+
+                    foreach (var prod in data)
                     {
-                        connection.Open();
-                        try
+                        int orderHistorikID = Models.OrderHistorik.kundnr++;
+                        //var connString1 = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                        var sql1 = $"insert into OrderHistorik values ({OHId}, {kundId}, {prod.Produkt})";
+                        connection.Execute(sql1);
+                        /*using (var connection1 = new SqlConnection(connString))
                         {
-                            connection.Execute(sql);
+                            connection.Open();
+                            try
+                            {
+                                connection.Execute(sql);
 
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }
+                        }*/
                     }
                 }
             }
         }
-
         public static void ShowOrderHistorik()
         {
             Console.WriteLine($"KundID \t ProductID");

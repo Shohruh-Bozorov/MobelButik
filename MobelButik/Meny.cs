@@ -211,7 +211,7 @@ namespace MobelButik
 
         public static bool kundKorg(bool quit)
         {
-            Console.Clear();
+
             Methods.GetKundKorgProducts();
             Console.WriteLine("-----------------------------");
 
