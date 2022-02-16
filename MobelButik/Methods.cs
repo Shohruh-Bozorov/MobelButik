@@ -326,7 +326,7 @@ namespace MobelButik
                 }
 
             }
-          
+
 
             return affectedRows;
 
@@ -621,7 +621,7 @@ namespace MobelButik
                     {
                         var sql2 = $"select COUNT(id) as 'AntalID' from OrderHistorik";
                         var num1 = connection.Query<int>(sql2);
-                        int OHId = num1.AsList()[0]+1;
+                        int OHId = num1.AsList()[0] + 1;
                         var sql1 = $"insert into OrderHistorik values ({OHId}, {kundId}, {prod.Produkt})";
                         connection.Execute(sql1);
 
@@ -647,75 +647,5 @@ namespace MobelButik
             }
         }
 
-        public static void GetMostPopularProducts()
-        {
-            Console.WriteLine($"ID \t Namn \t\t Pris ");
-
-
-            /*//var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
-            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
-            var sql = @"SELECT
-                            ProduktId, count(ProduktID) as 'Antal köp av produkt'
-                        FROM
-                            OrderHistorik
-                        GROUP BY
-                            ProduktID";
-
-            using (var connection = new SqlConnection(connString))
-            {
-                connection.Open();
-                try
-                {
-                    var mostCommonProd = connection.Query<int>(sql);
-                foreach (var item in mostCommonProd)
-                {
-                    Console.WriteLine(mostCommonProd.AsList()[item]);
-                }
-
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-            }*/
-            using (var db = new MobelButik.Models.NewtonContext())
-            {
-
-
-                var data = (from o in db.OrderHistoriks
-                            join p in db.Produkts
-                            on o.ProduktId equals p.Id
-                            select new
-                            {
-                                Id = o.ProduktId,
-                                Namn = p.ProduktNamn,
-                                Pris = p.Pris
-                            }).ToList();
-                foreach (var prod in data)
-                {
-                    Console.WriteLine($"{prod.Id,-5} {prod.Namn,-10} {prod.Pris}");
-                }
-
-            }
-
-        }
-
-
-            //det som ska fixas
-            //* efter köp ska det automatisk kopiera kund id och produkt id till
-            //Orderhistorik samt ha en getDate som hämtar datum och sedan töms kundkorgen med EmptyCart()
-
-            //* efter att man köpt ska man få en fejk ordernummer(vi kan använda rng för det)
-
-            //* efter att man har skrivt in sina personlgia information och har valt leverans och betalning alternativ 
-            // ska man få en bekräftelse på skärmen som visar allt man har matat in så att man kan bekräfta sedan 
-            // frågar den vill du fortsätta? om man v'ljer ja så kopieras ordern till order historik,
-            // kundkorgen töms och man får en fejk order nummer
-
-
-
-        }
+    }
 }
