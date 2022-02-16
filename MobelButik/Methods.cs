@@ -646,57 +646,62 @@ namespace MobelButik
 
             }
         }
-            
-        /*public static void GetMostPopularProducts()
+
+        public static void GetMostPopularProducts()
         {
             Console.WriteLine($"ID \t Namn \t\t Pris ");
+
+
+            /*//var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
+            var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+            var sql = @"SELECT
+                            ProduktId, count(ProduktID) as 'Antal köp av produkt'
+                        FROM
+                            OrderHistorik
+                        GROUP BY
+                            ProduktID";
+
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                try
+                {
+                    var mostCommonProd = connection.Query<int>(sql);
+                foreach (var item in mostCommonProd)
+                {
+                    Console.WriteLine(mostCommonProd.AsList()[item]);
+                }
+
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+            }*/
             using (var db = new MobelButik.Models.NewtonContext())
             {
 
-                var result = from
-                             Produkts in db.Produkts
-                             where Produkts.KategoriId == 1
-                             select new { ProduktName = Produkts.ProduktNamn, ProduktPris = (double)Produkts.Pris, ProduktId = Produkts.Id };
-                //group Produkts by Produkts.ProduktNamn;
 
-                foreach (var product in result)
+                var data = (from o in db.OrderHistoriks
+                            join p in db.Produkts
+                            on o.ProduktId equals p.Id
+                            select new
+                            {
+                                Id = o.ProduktId,
+                                Namn = p.ProduktNamn,
+                                Pris = p.Pris
+                            }).ToList();
+                foreach (var prod in data)
                 {
-                    Console.WriteLine($"{product.ProduktId,-8} {product.ProduktName,-15} {product.ProduktPris}");
+                    Console.WriteLine($"{prod.Id,-5} {prod.Namn,-10} {prod.Pris}");
                 }
 
-                *//*
-                                Console.WriteLine("KundKorg:");
+            }
 
-                                //var connString = "data source=.\\SQLEXPRESS; initial catalog=MöbelButik; persist security info=true; Integrated Security=true";
-                                var connString = "Server=tcp:mobelbutik.database.windows.net,1433;Initial Catalog=Newton;Persist Security Info=False;User ID=vidrusen;Password=troll100!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
-                                var sql = @"SELECT
-                                              ProduktId, count(ProduktID) as 'Antal köp av produkt'
-                                            FROM
-                                              OrderHistorik
-                                            GROUP BY
-                                              ProduktID";
-
-                                using (var connection = new SqlConnection(connString))
-                                {
-                                    connection.Open();
-                                    try
-                                    {
-                                        var mostCommonProds = connection.Query(sql).ToList();
-                                        foreach (var item in mostCommonProds)
-                                        {
-                                            Console.WriteLine(item);
-                                        }
-
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Console.WriteLine(e.Message);
-                                    }
-
-                                }*//*
-
-            }*/
+        }
 
 
             //det som ska fixas
@@ -711,6 +716,6 @@ namespace MobelButik
             // kundkorgen töms och man får en fejk order nummer
 
 
-        
-    }
+
+        }
 }
